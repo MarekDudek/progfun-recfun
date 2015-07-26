@@ -18,13 +18,34 @@ object Main {
     if (c == 0 || c == r)
       1
     else
-      pascal(c-1, r-1) + pascal(c, r-1)
+      pascal(c - 1, r - 1) + pascal(c, r - 1)
   }
 
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+
+    if (chars.isEmpty)
+      true
+
+    def balance(chars: List[Char], open: Int, close: Int): Boolean = {
+
+      if (chars.isEmpty)
+        open == close
+      else {
+        val char = chars.head
+        val newOpen = if (char == '(') open + 1 else open
+        val newClose = if (char == ')') close + 1 else close
+        if (newClose > newOpen)
+          false
+        else
+          balance(chars.tail, newOpen, newClose)
+      }
+    }
+
+    balance(chars, 0, 0)
+  }
 
   /**
    * Exercise 3
