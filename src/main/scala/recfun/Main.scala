@@ -29,19 +29,21 @@ object Main {
     if (chars.isEmpty)
       true
 
-    def balance(chars: List[Char], open: Int, close: Int): Boolean = {
+    def balance(chars: List[Char], opening: Int, closing: Int): Boolean = {
 
       if (chars.isEmpty)
-        open == close
-      else {
-        val char = chars.head
-        val newOpen = if (char == '(') open + 1 else open
-        val newClose = if (char == ')') close + 1 else close
-        if (newClose > newOpen)
-          false
-        else
-          balance(chars.tail, newOpen, newClose)
-      }
+        return opening == closing
+
+      def oneIfTrue(value: Boolean) = if (value) 1 else 0
+      
+      val current = chars.head      
+      val newOpening = opening + oneIfTrue(current == '(')
+      val newClosing = closing + oneIfTrue(current == ')')
+
+      if (newClosing > newOpening)
+        return false
+        
+      balance(chars.tail, newOpening, newClosing)
     }
 
     balance(chars, 0, 0)
