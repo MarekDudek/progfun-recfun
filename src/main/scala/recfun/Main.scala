@@ -26,24 +26,23 @@ object Main {
    */
   def balance(chars: List[Char]): Boolean = {
 
-    if (chars.isEmpty)
-      true
-
     def balance(chars: List[Char], opening: Int, closing: Int): Boolean = {
 
       if (chars.isEmpty)
-        return opening == closing
+        opening == closing
+      else {
 
-      def oneIfTrue(value: Boolean) = if (value) 1 else 0
-      
-      val current = chars.head      
-      val newOpening = opening + oneIfTrue(current == '(')
-      val newClosing = closing + oneIfTrue(current == ')')
+        def oneIfTrue(value: Boolean) =
+          if (value) 1 else 0
 
-      if (newClosing > newOpening)
-        return false
-        
-      balance(chars.tail, newOpening, newClosing)
+        val newOpening = opening + oneIfTrue(chars.head == '(')
+        val newClosing = closing + oneIfTrue(chars.head == ')')
+
+        if (newClosing > newOpening)
+          false
+        else
+          balance(chars.tail, newOpening, newClosing)
+      }
     }
 
     balance(chars, 0, 0)
